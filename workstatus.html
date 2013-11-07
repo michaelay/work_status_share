@@ -1,0 +1,92 @@
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Work Status</title>
+</head>
+
+<body>
+	{{> header}}
+	<div class="container">
+		{{#if currentUser}}
+			{{> user_loggedin}}
+		{{else}}
+			{{> user_loggedout}}
+		{{/if}}
+	</div>
+</body>
+
+<template name="header">
+	<div class="navbar navbar-inverse">
+		<div class="navbar-inner">
+			<a class="brand" href="#">Work Status</a>
+			{{#if currentUser}}
+			<div class="nav pull-right">
+				<a href="#" id="logout" class="btn">Logout</a>
+			</div>
+			<div class="nav pull-right navbar-text">
+				{{currentUser.profile.name}}
+			</div>
+			{{/if}}
+		</div>
+	</div>
+</div>
+</template>
+
+<template name="user_loggedin">
+	{{#if loggingIn}}
+		<h2>Logging in...</h2>
+	{{else}}
+		<img class="img-rounded" style="height: 32px; margin-top: 4px;" src="{{currentUser.profile.avatar_url}}" />
+		{{> update_status}}
+		{{> status_list}}
+	{{/if}}
+</template>
+
+<template name="user_loggedout">
+	<div class="well">
+		<p>
+			Share your work status with coworkers.
+		</p>
+		<p>
+			Only viewable to those with account whitelist. 
+			Please find you_know_who to add your account.
+		</p>
+		{{loginButtons}}
+	</div>
+</template>
+
+<template name="status_list">
+	<table class="table table-striped status-list">
+		<thead>
+			<tr>
+				<th>Picture</th>
+				<th>Name</th>
+				<th>Status</th>
+				<th>Last update</th>
+			</tr>
+		</thead>
+		<tbody>
+		{{#each users}}
+		{{> user}}
+		{{/each}}
+		</tbody>
+	</table>
+</template>
+
+<template name="user">
+	<tr class="user">
+		<td class="profile_picture"><img src="https://graph.facebook.com/{{services.facebook.username}}/picture"/></td>
+		<td class="name">{{profile.name}}</td>
+		<td class="status">{{profile.ws.status}}</td>
+		<td class="last_update_time">{{prettifyDate profile.ws.last_update_time}}</td>
+	</tr>
+</template>
+
+<template name="update_status">
+	<form class="form-inline" action="#">
+		<fieldset>
+		<legend>Update status</legend>
+		<input id="update_status_text" type="text" placeholder="Type something">
+		<button id="update_status_submit" type="submit" class="btn btn-primary">Submit</button>
+		</fieldset>
+	</form>
+</template>
