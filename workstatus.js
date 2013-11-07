@@ -1,22 +1,16 @@
 // Users = new Meteor.Collection("users");
 
-    Meteor.users.allow({
-      update: function(userId, docs, fields, modifier) { 
-        return doc.owner === userId;
-        // if (userId !== docs._id) { 
-        //   return false;
-        // } else { 
-        //   return true;
-        // } 
-      }, 
-      insert: function(userId, doc) { 
-        return (userId && doc.owner === userId);
-      },
-      remove: function(userId, doc) { 
-        return true;
-        // return doc.owner === userId;
-      }
-    });
+Meteor.users.allow({
+  update: function(userId, docs, fields, modifier) { 
+    return doc.owner === userId;
+  }, 
+  insert: function(userId, doc) { 
+    return (userId && doc.owner === userId);
+  },
+  remove: function(userId, doc) { 
+    return doc.owner === userId;
+  }
+});
 
 
 if (Meteor.isClient) {
