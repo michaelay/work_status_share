@@ -36,6 +36,7 @@
 		<h2>Logging in...</h2>
 	{{else}}
 		<img class="img-rounded" style="height: 32px; margin-top: 4px;" src="{{currentUser.profile.avatar_url}}" />
+		{{> onlineList}}
 		{{> update_status}}
 		{{> status_list}}
 	{{/if}}
@@ -89,4 +90,14 @@
 		<button id="update_status_submit" type="submit" class="btn btn-primary">Submit</button>
 		</fieldset>
 	</form>
+</template>
+
+<template name="onlineList">
+	{{#each usersOnline}}
+	{{> userPill}}
+	{{/each}}
+</template>
+
+<template name="userPill">
+    <span class="label {{onlineLabelClass profile.online}}">{{profile.name}}</span>
 </template>

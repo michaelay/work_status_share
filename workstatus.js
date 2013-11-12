@@ -68,6 +68,19 @@ if (Meteor.isClient) {
     } 
   });
 
+  Template.onlineList.usersOnline = function() { 
+    // return Meteor.users.find({ "profile.online": true });
+    return Meteor.users.find();
+  };
+
+  Handlebars.registerHelper("onlineLabelClass", function(online) {
+    if (online) { 
+      return "label-success"; 
+    } else { 
+      return "";
+    }
+  });
+
   Handlebars.registerHelper("prettifyDate", function(timestamp) { 
     var date = new Date(timestamp * 1000); 
     var month = date.getMonth() + 1; 
@@ -80,16 +93,23 @@ if (Meteor.isClient) {
   });
 
   Meteor.subscribe("users");
+  // Meteor.subscribe("usersOnline");
 }
 
 if (Meteor.isServer) {
   Meteor.startup(function () {
+
     Meteor.publish("users", function() { 
       return Meteor.users.find(
         {},
         {fields: {profile:1, services:1}}
         );
     });
+
+    // Meteor.publish("usersOnline", function() { 
+    //   // return Meteor.users.find({}, {fields: {profile:1}});
+    //   return Meteor.users.find({"profile.online": true }, {fields: {profile:1}});
+    // });
 
     // account related
     (function() { 
